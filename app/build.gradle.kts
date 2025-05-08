@@ -33,11 +33,23 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/LICENSE-notice.md"
+            excludes += "/META-INF/NOTICE.md"
+        }
+    }
 }
 
 dependencies {
     // Added by group
     implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
+    //implementation("com.sun.mail:jakarta.mail:1.6.7")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

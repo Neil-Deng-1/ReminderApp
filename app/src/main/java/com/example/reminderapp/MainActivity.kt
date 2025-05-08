@@ -1,5 +1,6 @@
 package com.example.reminderapp
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.Button
@@ -12,7 +13,7 @@ import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var prefs: SharedPreferences
+    public lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,8 +24,10 @@ class MainActivity : AppCompatActivity() {
 
 
         if (name != null && email != null) {
+            //goes directly to reminder screen if user has logged in
             showReminders()
         } else {
+            //shows welcome screen if nothing stored in shared prefs
            showWelcome()
         }
     }
@@ -55,6 +58,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun showReminders() {
         setContentView(R.layout.activity_reminders)
+
+        val addReminderBtn = findViewById<Button>(R.id.add_button)
+        addReminderBtn.setOnClickListener {
+            val intent = Intent(this, AddActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 }
