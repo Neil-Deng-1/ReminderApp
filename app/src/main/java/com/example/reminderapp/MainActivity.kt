@@ -57,13 +57,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showReminders() {
-        setContentView(R.layout.activity_reminders)
+        val intent = Intent(this, ReminderActivity::class.java)
+        startActivity(intent)
 
-        val addReminderBtn = findViewById<Button>(R.id.add_button)
-        addReminderBtn.setOnClickListener {
-            val intent = Intent(this, AddActivity::class.java)
-            startActivity(intent)
-        }
 
     }
 }
