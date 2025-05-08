@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -49,6 +50,9 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("com.sun.mail:android-mail:1.6.7")
     implementation("com.sun.mail:android-activation:1.6.7")
+    implementation(platform("com.google.firebase:firebase-bom:33.5.0"))
+    implementation("com.google.firebase:firebase-analytics")
+
     //implementation("com.sun.mail:jakarta.mail:1.6.7")
 
     implementation(libs.androidx.core.ktx)
