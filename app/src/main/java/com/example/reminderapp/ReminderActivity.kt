@@ -35,7 +35,14 @@ class ReminderActivity : AppCompatActivity() {
             Log.w("MainActivity", "title: " + r.title + "date: " + r.date + "time: " + r.time + "desc: " + r.description)
         }
 
-        adapter = ReminderAdapter(remindersArr)
+        adapter = ReminderAdapter(remindersArr, { r ->
+            val intent = Intent(this, ReminderDetailActivity::class.java)
+            intent.putExtra("title", r.title)
+            intent.putExtra("date", r.date)
+            intent.putExtra("time", r.time)
+            intent.putExtra("description", r.description)
+            startActivity(intent)
+        })
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter

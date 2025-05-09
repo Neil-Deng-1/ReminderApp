@@ -6,7 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ReminderAdapter(private val reminders: List<Reminder>) :
+class ReminderAdapter(private val reminders: List<Reminder>,
+                      private val onClick: (Reminder) -> Unit) :
     RecyclerView.Adapter<ReminderAdapter.ReminderViewHolder>() {
 
     class ReminderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -26,6 +27,8 @@ class ReminderAdapter(private val reminders: List<Reminder>) :
         holder.title.text = reminder.title
         holder.dateTime.text = "${reminder.date} at ${reminder.time}"
         holder.description.text = reminder.description
+
+        holder.itemView.setOnClickListener {onClick(reminder)}
     }
 
     override fun getItemCount(): Int = reminders.size
