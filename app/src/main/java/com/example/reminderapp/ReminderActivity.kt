@@ -2,6 +2,7 @@ package com.example.reminderapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DatabaseReference
@@ -9,6 +10,8 @@ import com.google.firebase.database.FirebaseDatabase
 
 class ReminderActivity : AppCompatActivity() {
     private lateinit var addReminderBtn : Button
+    private lateinit var reminders : Reminders
+    private lateinit var remindersArr : ArrayList<Reminder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,11 +24,11 @@ class ReminderActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
+        reminders = MainActivity.reminders
+        remindersArr = reminders.getReminders()
+        for (r in remindersArr) {
+            Log.w("MainActivity", "title: " + r.title + "date: " + r.date + "time: " + r.time + "desc: " + r.description)
+        }
 
-        // Need a reference to write
-        var reference : DatabaseReference = firebase.getReference("country")
-        // Now we can associate the value 'USA' with the key 'country'
-        reference.setValue("USA")
     }
 }

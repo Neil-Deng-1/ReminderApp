@@ -1,9 +1,36 @@
 package com.example.reminderapp
 
+import android.util.Log
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+
 class Reminders {
     private lateinit var reminders : ArrayList<Reminder>
+    private lateinit var user : String
 
-    constructor() {
+    constructor(user : String) {
+        this.user = user
+        reminders = ArrayList<Reminder>()
+    }
 
+    fun queryReminders(onComplete: () -> Unit) {
+        var firebase : FirebaseDatabase = FirebaseDatabase.getInstance()
+        var reference : DatabaseReference = firebase.getReference(user);
+
+        reference.get().
+            addOnSuccessListener { dataSnapshot ->
+                for (reminderSnapshot in dataSnapshot.children) {
+                    val reminder = reminderSnapshot.getValue(Reminder::class.java)
+                    reminder?.let { reminders.add(it)}
+                }
+                onComplete()
+            }
+            .addOnFailureListener { exception ->
+                Log.w("MainActivity", "Error fetching reminders", exception)
+            }
+    }
+
+    fun getReminders() : ArrayList<Reminder> {
+        return reminders
     }
 }

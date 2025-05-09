@@ -12,19 +12,20 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
-
     public lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         prefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val name = prefs.getString("name", null)
-        val email = prefs.getString("email", null)
+        var name = prefs.getString("name", null)
+        var email = prefs.getString("email", null)
 
 
         if (name != null && email != null) {
             //goes directly to reminder screen if user has logged in
+            name = "user1" // TODO: REMOVE LATER
+            reminders = Reminders(name);
             showReminders()
         } else {
             //shows welcome screen if nothing stored in shared prefs
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         val signupBtn = findViewById<Button>(R.id.signup)
 
         signupBtn.setOnClickListener {
-            val nameInput = nameEt.text.toString().trim()
+            var nameInput = nameEt.text.toString().trim()
             val emailInput = emailEt.text.toString().trim()
 
             if (nameInput.isNotEmpty() && emailInput.isNotEmpty()) {
@@ -49,6 +50,9 @@ class MainActivity : AppCompatActivity() {
                     .putString("email", emailInput)
                     .apply()
 
+                nameInput = "user1" // TODO: Remove later
+
+                reminders = Reminders(nameInput)
                 showReminders()
             } else {
                 Toast.makeText(this, "Please enter both name and email", Toast.LENGTH_SHORT).show()
@@ -57,9 +61,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showReminders() {
-        val intent = Intent(this, ReminderActivity::class.java)
-        startActivity(intent)
+        reminders.queryReminders{
+            val intent = Intent(this, ReminderActivity::class.java)
+            startActivity(intent)
+        }
 
+    }
 
+    companion object {
+        public lateinit var reminders : Reminders
     }
 }
